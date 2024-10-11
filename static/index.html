@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Predictor</title>
+</head>
+<body>
+    <h1>Sign Language Prediction</h1>
+    <video id="webcam" autoplay playsinline></video>
+    <p>Prediction: <span id="prediction"></span></p>
+
+    <script>
+        const video = document.getElementById('webcam');
+        const predictionElement = document.getElementById('prediction');
+
+        // Get webcam feed
+        navigator.mediaDevices.getUserMedia({
+            video: true
+        }).then((stream) => {
+            video.srcObject = stream;
+        }).catch((error) => {
+            console.error('Error accessing webcam:', error);
+        });
+
+        async function predict() {
+            // Capture frame, process it, and send to backend for prediction
+            // Or run client-side model inference (if TensorFlow.js model is used)
+
+            // Example: Sending frame data to backend
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const frameData = canvas.toDataURL('image/jpeg');
+
+            // Send frame data to backend
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: frameData })
+            });
+            const result = await response.json();
+
+            // Display prediction
+            predictionElement.textContent = result.prediction;
+        }
+
+        // Set prediction loop (adjust frequency as needed)
+        setInterval(predict, 1000);
+    </script>
+</body>
+</html>
