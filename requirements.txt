@@ -3,3 +3,6 @@ numpy
 opencv-python
 mediapipe
 scikit-learn
+requests
+pickel
+jsonify
