@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 import pickle
 import numpy as np
 import cv2
@@ -16,8 +16,8 @@ model = model_dict['model']
 labels_dict = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F'}
 
 @app.route('/')
-def index():
-    return send_from_directory('static', 'index.html')
+def home():
+    return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
