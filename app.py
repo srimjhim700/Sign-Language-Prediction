@@ -3,11 +3,11 @@ import pickle
 import numpy as np
 import cv2
 import base64
-
+from flask_cors import CORS
 # run the flask application using python app.py for prediction
 
 app = Flask(__name__, static_folder='static')
-
+CORS(app)
 # Load the model
 model_dict = pickle.load(open('./model.p', 'rb'))
 model = model_dict['model']
@@ -38,4 +38,4 @@ def predict():
     return jsonify({"prediction": predicted_character})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",port=8080)
