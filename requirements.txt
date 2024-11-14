@@ -1,4 +1,6 @@
 Flask
+send_from_directory
+cv2
 numpy
 opencv-python
 mediapipe
